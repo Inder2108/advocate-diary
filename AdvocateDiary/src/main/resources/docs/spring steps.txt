@@ -1,0 +1,5 @@
+1. Download STS.
+2. New Maven Project.Select archetype as webapp.
+3. Add all spring dependencies in pom.xml (Google spring maven dependencies).
+4. Properties->Project Facets->Select a runtime
+5. 

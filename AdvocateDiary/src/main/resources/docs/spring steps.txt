@@ -2,4 +2,32 @@
 2. New Maven Project.Select archetype as webapp.
 3. Add all spring dependencies in pom.xml (Google spring maven dependencies).
 4. Properties->Project Facets->Select a runtime
-5. 
+5. Run. Hello World !!
+6. Define dispatcher servet in web.xml
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>
+			org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+7. Create file with name dispatcher-servet.xml in WEB-INF with configuration :
+
+<context:component-scan base-package="com.adv.controllers" />	
+
+   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="prefix" value="/WEB-INF/jsp/" />
+      <property name="suffix" value=".jsp" />
+   </bean>
+
+8. IMP - click on Properties->Deployement Assembly.
+click add
+click on "Java Build Path Entries"
+select Maven Dependencies"
+
+9. 

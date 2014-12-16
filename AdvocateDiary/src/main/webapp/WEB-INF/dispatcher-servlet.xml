@@ -60,6 +60,13 @@
 		</property>
 	</bean>
 
+	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="location">
+			<value>/WEB-INF/spring-pdf-views.xml</value>
+		</property>
+		<property name="order" value="0" />
+	</bean>
+
 	<bean id="clientDAO" class="com.adv.dao.ClientDAOImpl">
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>
@@ -73,7 +80,7 @@
 	</bean>
 
 	<bean id="caseService" class="com.adv.service.CaseServiceImpl">
-		<property name="caseDAO" ref="clientDAO"></property>
+		<property name="caseDAO" ref="caseDAO"></property>
 	</bean>
 
 	<bean id="courtDAO" class="com.adv.dao.CourtDAOImpl">

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.adv.entities.Client;
 import com.adv.service.ClientService;
@@ -60,4 +61,10 @@ public class ClientController {
 		return "clientsPage";
 	}
 
+	@RequestMapping("/export")
+	public ModelAndView exportData() {
+		ModelAndView mv = new ModelAndView("PdfReportView");
+		mv.addObject("data", this.clientService.listClients());
+		return mv;
+	}
 }

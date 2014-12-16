@@ -30,4 +30,4 @@ click add
 click on "Java Build Path Entries"
 select Maven Dependencies"
 
-9. 
+9. If Jdbc memory leak problem occurs, remove mysql-connector dependency from pom and put it in TOMCAT/lib 

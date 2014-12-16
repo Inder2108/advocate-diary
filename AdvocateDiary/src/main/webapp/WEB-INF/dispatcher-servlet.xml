@@ -43,6 +43,8 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.adv.entities.Client</value>
+				<value>com.adv.entities.Case</value>
+				<value>com.adv.entities.Court</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -51,7 +53,7 @@
 				</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">
-					create
+					update
 				</prop>
 
 			</props>
@@ -65,6 +67,23 @@
 	<bean id="clientService" class="com.adv.service.ClientServiceImpl">
 		<property name="clientDAO" ref="clientDAO"></property>
 	</bean>
+
+	<bean id="caseDAO" class="com.adv.dao.CaseDAOImpl">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+
+	<bean id="caseService" class="com.adv.service.CaseServiceImpl">
+		<property name="caseDAO" ref="clientDAO"></property>
+	</bean>
+
+	<bean id="courtDAO" class="com.adv.dao.CourtDAOImpl">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+
+	<bean id="courtService" class="com.adv.service.CourtServiceImpl">
+		<property name="courtDAO" ref="courtDAO"></property>
+	</bean>
+
 	<context:component-scan base-package="com.adv" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />

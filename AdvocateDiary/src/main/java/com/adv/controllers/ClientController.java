@@ -32,14 +32,14 @@ public class ClientController {
 
 	// For add and update client both
 	@RequestMapping(value = "/client/add", method = RequestMethod.POST)
-	public String addClient(@ModelAttribute("client") Client p) {
+	public String addClient(@ModelAttribute("client") Client c) {
 
-		if (p.getId() == 0) {
+		if (c.getId() == 0) {
 			// new client, add it
-			this.clientService.addClient(p);
+			this.clientService.addClient(c);
 		} else {
 			// existing client, call update
-			this.clientService.updateClient(p);
+			this.clientService.updateClient(c);
 		}
 
 		return "redirect:/clients";

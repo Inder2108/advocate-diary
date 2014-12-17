@@ -43,13 +43,60 @@
 	background-color: #f9f9f9
 }
 </style>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#addEditClientForm').submit(function(event) {
+
+			alert($('#addEditClientForm').serialize());
+
+			var id = $('#id').val();
+			var name = $('#name').val();
+			var email = $('#email').val();
+			var contacts = $('#contacts').val();
+			var address = $('#address').val();
+			var json = {
+				"id" : id,
+				"name" : name,
+				"email" : email,
+				"contacts" : contacts,
+				"address" : address
+			};
+
+			$.ajax({
+				url : $("#addEditClientForm").attr("action"),
+				data : JSON.stringify(json),
+				type : "POST",
+
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader("Accept", "application/json");
+					xhr.setRequestHeader("Content-Type", "application/json");
+				},
+				success : function(result) {
+					alert("Client added.");
+
+				},
+				failure : function(response) {
+					alert("Something went wrong.Please try again");
+				}
+			});
+
+			event.preventDefault();
+		});
+
+	});
+</script>
+
 </head>
 <body>
 	<h1>Add a Client</h1>
 
-	<c:url var="addAction" value="/client/add"></c:url>
+	<c:url var="addAction" value="/clients/add"></c:url>
 
-	<form:form action="${addAction}" commandName="client">
+	<form:form id="addEditClientForm" action="${addAction}"
+		commandName="client">
 		<table>
 			<c:if test="${!empty client.name}">
 				<tr>
@@ -74,10 +121,22 @@
 			</tr>
 			<tr>
 				<td><form:label path="contacts">
-						<spring:message text="Contact No." />
+						<spring:message text="Contact No. " />
+					</form:label></td>
+				<td><form:input path="contactNo1" /></td>
+			</tr>
+
+			<tr>
+				<td><form:input path="contactNo2" /></td>
+			</tr>
+
+			<tr>
+				<td><form:label path="contacts">
+						<spring:message text="Contact No. 2" />
 					</form:label></td>
 				<td><form:input path="contacts" /></td>
 			</tr>
+
 			<tr>
 				<td><form:label path="address">
 						<spring:message text="Address" />
@@ -111,10 +170,10 @@
 					<td>${client.id}</td>
 					<td>${client.name}</td>
 					<td>${client.email}</td>
-					<td>${client.contacts}</td>
+					<td>${client.contacts[0]}<br/>${client.contacts[1]}</td>
 					<td>${client.address}</td>
-					<td><a href="<c:url value='/edit/${client.id}' />">Edit</a></td>
-					<td><a href="<c:url value='/remove/${client.id}' />">Delete</a></td>
+					<td><a href="<c:url value='/clients/edit/${client.id}' />">Edit</a></td>
+					<td><a href="<c:url value='/clients/remove/${client.id}' />">Delete</a></td>
 				</tr>
 			</c:forEach>
 		</table>

@@ -6,9 +6,9 @@ import com.adv.entities.Client;
 
 public interface ClientService {
 
-	public void addClient(Client p);
+	public Client addClient(Client p);
 
-	public void updateClient(Client p);
+	public Client updateClient(Client p);
 
 	public List<Client> listClients();
 

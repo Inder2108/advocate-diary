@@ -23,17 +23,19 @@ public class ClientDAOImpl implements ClientDAO {
 	}
 
 	@Override
-	public void addClient(Client p) {
+	public Client addClient(Client p) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.persist(p);
 		logger.info("Client saved successfully, Client Details=" + p);
+		return p;
 	}
 
 	@Override
-	public void updateClient(Client p) {
+	public Client updateClient(Client p) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(p);
 		logger.info("Client updated successfully, Client Details=" + p);
+		return p;
 	}
 
 	@SuppressWarnings("unchecked")

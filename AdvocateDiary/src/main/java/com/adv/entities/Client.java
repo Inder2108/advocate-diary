@@ -22,20 +22,27 @@ public class Client {
 
 	private String address;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> contacts;
+	private String contactNo1;
+
+	private String contactNo2;
 
 	public Client() {
 	}
 
-	public Client(int id, String name, String email, String address,
-			List<String> contacts) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.address = address;
-		this.contacts = contacts;
+	public String getContactNo1() {
+		return contactNo1;
+	}
+
+	public void setContactNo1(String contactNo1) {
+		this.contactNo1 = contactNo1;
+	}
+
+	public String getContactNo2() {
+		return contactNo2;
+	}
+
+	public void setContactNo2(String contactNo2) {
+		this.contactNo2 = contactNo2;
 	}
 
 	public int getId() {
@@ -69,13 +76,4 @@ public class Client {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public List<String> getContacts() {
-		return contacts;
-	}
-
-	public void setContacts(List<String> contacts) {
-		this.contacts = contacts;
-	}
-
 }

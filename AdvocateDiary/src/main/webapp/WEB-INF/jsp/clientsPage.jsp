@@ -50,12 +50,12 @@
 
 		$('#addEditClientForm').submit(function(event) {
 
-			alert($('#addEditClientForm').serialize());
-
+			/* alert($('#addEditClientForm').serialize());
+ */
 			var id = $('#id').val();
 			var name = $('#name').val();
 			var email = $('#email').val();
-			var contacts = $('#contacts').val();
+			var contacts = [$('#c1').val(),$('#c2').val()];
 			var address = $('#address').val();
 			var json = {
 				"id" : id,
@@ -64,15 +64,15 @@
 				"contacts" : contacts,
 				"address" : address
 			};
-
+		alert(contacts);
 			$.ajax({
 				url : $("#addEditClientForm").attr("action"),
-				data : JSON.stringify(json),
+				data : $("#addEditClientForm").serialize(),
 				type : "POST",
 
 				beforeSend : function(xhr) {
 					xhr.setRequestHeader("Accept", "application/json");
-					xhr.setRequestHeader("Content-Type", "application/json");
+					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				},
 				success : function(result) {
 					alert("Client added.");
@@ -120,21 +120,14 @@
 				<td><form:input path="email" /></td>
 			</tr>
 			<tr>
-				<td><form:label path="contacts">
+				<td><form:label path="contactNo1">
 						<spring:message text="Contact No. " />
 					</form:label></td>
 				<td><form:input path="contactNo1" /></td>
 			</tr>
 
 			<tr>
-				<td><form:input path="contactNo2" /></td>
-			</tr>
-
-			<tr>
-				<td><form:label path="contacts">
-						<spring:message text="Contact No. 2" />
-					</form:label></td>
-				<td><form:input path="contacts" /></td>
+				<td></td><td><form:input path="contactNo2" /></td>
 			</tr>
 
 			<tr>
@@ -170,7 +163,7 @@
 					<td>${client.id}</td>
 					<td>${client.name}</td>
 					<td>${client.email}</td>
-					<td>${client.contacts[0]}<br/>${client.contacts[1]}</td>
+					<td>${client.contactNo1}<br/>${client.contactNo2}</td>
 					<td>${client.address}</td>
 					<td><a href="<c:url value='/clients/edit/${client.id}' />">Edit</a></td>
 					<td><a href="<c:url value='/clients/remove/${client.id}' />">Delete</a></td>

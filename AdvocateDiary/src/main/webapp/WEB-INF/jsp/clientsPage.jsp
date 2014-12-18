@@ -43,11 +43,67 @@
 	background-color: #f9f9f9
 }
 </style>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css">
+<script type="text/javascript"
+	src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript"
+	src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 <script type="text/javascript">
+	//Plug-in to fetch page data 
+	jQuery.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
+		return {
+			"iStart" : oSettings._iDisplayStart,
+			"iEnd" : oSettings.fnDisplayEnd(),
+			"iLength" : oSettings._iDisplayLength,
+			"iTotal" : oSettings.fnRecordsTotal(),
+			"iFilteredTotal" : oSettings.fnRecordsDisplay(),
+			"iPage" : oSettings._iDisplayLength === -1 ? 0 : Math
+					.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
+			"iTotalPages" : oSettings._iDisplayLength === -1 ? 0 : Math
+					.ceil(oSettings.fnRecordsDisplay()
+							/ oSettings._iDisplayLength)
+		};
+	};
 	$(document).ready(function() {
 
+		
+		$("#example").dataTable({
+			"bProcessing" : true,
+			"bServerSide" : true,
+			"sort" : "position",
+			//bStateSave variable you can use to save state on client cookies: set value "true" 
+			"bStateSave" : false,
+			//Default: Page display length
+			"iDisplayLength" : 10,
+			//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+			"iDisplayStart" : 0,
+			"fnDrawCallback" : function() {
+				//Get page numer on client. Please note: number start from 0 So
+				//for the first page you will see 0 second page 1 third page 2...
+				//Un-comment below alert to see page number
+				//alert("Current page number: "+this.fnPagingInfo().iPage);    
+			},
+			"sAjaxSource" : "/AdvocateDiary/clients/springPaginationDataTables.web",
+			"aoColumns" : [ {
+				"mData" : "name"
+			}, {
+				"mData" : "position"
+			}, {
+				"mData" : "office"
+			}, {
+				"mData" : "phone"
+			}, {
+				"mData" : "start_date"
+			}, {
+				"mData" : "salary"
+			},
+
+			]
+		});
+
+		
+		
 		$('#addEditClientForm').submit(function(event) {
 
 			/* alert($('#addEditClientForm').serialize());
@@ -55,7 +111,7 @@
 			var id = $('#id').val();
 			var name = $('#name').val();
 			var email = $('#email').val();
-			var contacts = [$('#c1').val(),$('#c2').val()];
+			var contacts = [$('#contactNo1').val(),$('#contactNo2').val()];
 			var address = $('#address').val();
 			var json = {
 				"id" : id,
@@ -67,7 +123,7 @@
 		alert(contacts);
 			$.ajax({
 				url : $("#addEditClientForm").attr("action"),
-				data : $("#addEditClientForm").serialize(),
+				data : JSON.stringify(json),
 				type : "POST",
 
 				beforeSend : function(xhr) {
@@ -147,29 +203,24 @@
 	</form:form>
 	<br>
 	<h3>Clients List</h3>
-	<c:if test="${!empty listClients}">
-		<table class="tg">
+	<table width="70%"
+			style="border: 3px; background: rgb(243, 244, 248);">
 			<tr>
-				<th width="80">ID</th>
-				<th width="120">Name</th>
-				<th width="120">Email</th>
-				<th width="120">Contact</th>
-				<th width="120">Address</th>
-				<th width="60">Edit</th>
-				<th width="60">Delete</th>
+				<td>
+					<table id="example" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Position</th>
+								<th>Office</th>
+								<th>Phone</th>
+								<th>Start Date</th>
+								<th>Salary</th>
+							</tr>
+						</thead>
+					</table>
+				</td>
 			</tr>
-			<c:forEach items="${listClients}" var="client">
-				<tr>
-					<td>${client.id}</td>
-					<td>${client.name}</td>
-					<td>${client.email}</td>
-					<td>${client.contactNo1}<br/>${client.contactNo2}</td>
-					<td>${client.address}</td>
-					<td><a href="<c:url value='/clients/edit/${client.id}' />">Edit</a></td>
-					<td><a href="<c:url value='/clients/remove/${client.id}' />">Delete</a></td>
-				</tr>
-			</c:forEach>
 		</table>
-	</c:if>
 </body>
 </html>

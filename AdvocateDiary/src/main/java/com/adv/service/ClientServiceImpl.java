@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.adv.dao.ClientDAO;
 import com.adv.entities.Client;
+import com.adv.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -37,13 +38,13 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	@Transactional
-	public Client getClientById(int id) {
+	public Client getClientById(int id) throws ObjectNotFoundException {
 		return clientDAO.getClientById(id);
 	}
 
 	@Override
 	@Transactional
-	public void removeClient(int id) {
+	public void removeClient(int id) throws ObjectNotFoundException {
 		clientDAO.removeClient(id);
 	}
 

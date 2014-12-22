@@ -11,7 +11,11 @@
 		infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="com.adv.util.TableParamArgumentResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
 	<context:property-placeholder location="/WEB-INF/jdbc.properties" />
 
 	<context:component-scan base-package="com.adv" />

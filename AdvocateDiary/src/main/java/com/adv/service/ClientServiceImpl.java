@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.adv.dao.ClientDAO;
 import com.adv.entities.Client;
 import com.adv.exceptions.ObjectNotFoundException;
+import com.adv.util.DataTablesResultSet;
+import com.adv.util.PagingCriteria;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -53,4 +55,8 @@ public class ClientServiceImpl implements ClientService {
 		return clientDAO.listClients(page, pageLength, searchQuery);
 	}
 
+	@Override
+	public DataTablesResultSet<Client> listClients(PagingCriteria criteria) {
+		return clientDAO.listClients(criteria);
+	}
 }

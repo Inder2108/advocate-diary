@@ -4,19 +4,23 @@ import java.util.List;
 
 import com.adv.entities.Client;
 import com.adv.exceptions.ObjectNotFoundException;
+import com.adv.util.DataTablesResultSet;
+import com.adv.util.PagingCriteria;
 
 public interface ClientService {
 
-	public Client addClient(Client p);
+	Client addClient(Client p);
 
-	public Client updateClient(Client p);
+	Client updateClient(Client p);
 
-	public List<Client> listClients();
-	
-	public List<Client> listClients(int page, int pageLength, String searchQuery);
+	List<Client> listClients();
 
-	public Client getClientById(int id) throws ObjectNotFoundException;
+	List<Client> listClients(int page, int pageLength, String searchQuery);
 
-	public void removeClient(int id) throws ObjectNotFoundException;
+	Client getClientById(int id) throws ObjectNotFoundException;
+
+	void removeClient(int id) throws ObjectNotFoundException;
+
+	DataTablesResultSet<Client> listClients(PagingCriteria criteria);
 
 }

@@ -84,7 +84,7 @@
 				//Un-comment below alert to see page number
 				//alert("Current page number: "+this.fnPagingInfo().iPage);    
 			},
-			"sAjaxSource" : "/AdvocateDiary/clients/springPaginationDataTables.web",
+			"sAjaxSource" : "/AdvocateDiary/clients/get",
 			"aoColumns" : [ {
 				"mData" : "name"
 			}, {

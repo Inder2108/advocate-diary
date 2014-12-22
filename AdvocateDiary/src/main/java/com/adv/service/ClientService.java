@@ -12,6 +12,8 @@ public interface ClientService {
 	public Client updateClient(Client p);
 
 	public List<Client> listClients();
+	
+	public List<Client> listClients(int page, int pageLength, String searchQuery);
 
 	public Client getClientById(int id) throws ObjectNotFoundException;
 

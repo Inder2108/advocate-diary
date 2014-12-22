@@ -48,4 +48,9 @@ public class ClientServiceImpl implements ClientService {
 		clientDAO.removeClient(id);
 	}
 
+	@Override
+	public List<Client> listClients(int page, int pageLength, String searchQuery) {
+		return clientDAO.listClients(page, pageLength, searchQuery);
+	}
+
 }

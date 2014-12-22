@@ -13,4 +13,5 @@ public interface ClientDAO {
     public List<Client> listClients();
     public Client getClientById(int id) throws ObjectNotFoundException;
     public void removeClient(int id) throws ObjectNotFoundException;
+	public List<Client> listClients(int page, int pageLength, String searchQuery);
 }

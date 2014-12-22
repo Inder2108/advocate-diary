@@ -81,15 +81,9 @@ public class ClientController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/springPaginationDataTables.web", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/springPaginationDataTables.web", method = RequestMethod.GET)
 	public @ResponseBody String springPaginationDataTables(
 			HttpServletRequest request) throws IOException {
-
-		// Fetch the page number from client
-		Integer pageNumber = 0;
-		if (null != request.getParameter("iDisplayStart"))
-			pageNumber = (Integer
-					.valueOf(request.getParameter("iDisplayStart")) / 10) + 1;
 
 		// Fetch search parameter
 		String searchParameter = request.getParameter("sSearch");
@@ -98,32 +92,41 @@ public class ClientController {
 		Integer pageDisplayLength = Integer.valueOf(request
 				.getParameter("iDisplayLength"));
 
-		// Create page list data
-		List<Person> personsList = createPaginationData(pageDisplayLength);
+		// Fetch the page number from client
+				Integer pageNumber = 0;
+				if (null != request.getParameter("iDisplayStart"))
+					pageNumber = (Integer
+							.valueOf(request.getParameter("iDisplayStart")) / pageDisplayLength) + 1;
+		
+		// // Create page list data
+		// List<Person> personsList = createPaginationData(pageDisplayLength);
+		//
+		// // Here is server side pagination logic. Based on the page number you
+		// // could make call
+		// // to the data base create new list and send back to the client. For
+		// // demo I am shuffling
+		// // the same list to show data randomly
+		// if (pageNumber == 1) {
+		// Collections.shuffle(personsList);
+		// } else if (pageNumber == 2) {
+		// Collections.shuffle(personsList);
+		// } else {
+		// Collections.shuffle(personsList);
+		// }
+		//
+		// // Search functionality: Returns filtered list based on search
+		// parameter
+		// personsList = getListBasedOnSearchParameter(searchParameter,
+		// personsList);
 
-		// Here is server side pagination logic. Based on the page number you
-		// could make call
-		// to the data base create new list and send back to the client. For
-		// demo I am shuffling
-		// the same list to show data randomly
-		if (pageNumber == 1) {
-			Collections.shuffle(personsList);
-		} else if (pageNumber == 2) {
-			Collections.shuffle(personsList);
-		} else {
-			Collections.shuffle(personsList);
-		}
-
-		// Search functionality: Returns filtered list based on search parameter
-		personsList = getListBasedOnSearchParameter(searchParameter,
-				personsList);
-
+		List<Client> clientList = clientService.listClients(pageNumber,
+				pageDisplayLength, "");
 		PersonJsonObject personJsonObject = new PersonJsonObject();
 		// Set Total display record
 		personJsonObject.setiTotalDisplayRecords(500);
 		// Set Total record
 		personJsonObject.setiTotalRecords(500);
-		personJsonObject.setAaData(personsList);
+		personJsonObject.setAaData(clientList);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String json2 = gson.toJson(personJsonObject);
@@ -222,4 +225,12 @@ public class ClientController {
 		return personsList;
 	}
 
+	@RequestMapping(value = "/dummyData", method = RequestMethod.POST)
+	@ResponseBody
+	public void addDummydata() {
+		for (int i = 1; i <= 500; i++) {
+			this.clientService.addClient(new Client(i + "", i + "@" + i + "."
+					+ i, i + "", i + "", i + ""));
+		}
+	}
 }

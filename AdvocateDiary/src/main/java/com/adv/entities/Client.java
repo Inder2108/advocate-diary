@@ -25,6 +25,20 @@ public class Client {
 	public Client() {
 	}
 
+	
+	
+	public Client(String name, String email, String address, String contactNo1,
+			String contactNo2) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.address = address;
+		this.contactNo1 = contactNo1;
+		this.contactNo2 = contactNo2;
+	}
+
+
+
 	public String getContactNo1() {
 		return contactNo1;
 	}

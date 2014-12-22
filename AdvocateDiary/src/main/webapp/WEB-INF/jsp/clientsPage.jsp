@@ -88,17 +88,10 @@
 			"aoColumns" : [ {
 				"mData" : "name"
 			}, {
-				"mData" : "position"
+				"mData" : "email"
 			}, {
-				"mData" : "office"
-			}, {
-				"mData" : "phone"
-			}, {
-				"mData" : "start_date"
-			}, {
-				"mData" : "salary"
-			},
-
+				"mData" : "address"
+			}
 			]
 		});
 
@@ -111,25 +104,27 @@
 			var id = $('#id').val();
 			var name = $('#name').val();
 			var email = $('#email').val();
-			var contacts = [$('#contactNo1').val(),$('#contactNo2').val()];
+			var contact1 = $('#contactNo1').val();
+			var contact2 =  $('#contactNo2').val();
 			var address = $('#address').val();
 			var json = {
 				"id" : id,
 				"name" : name,
 				"email" : email,
-				"contacts" : contacts,
+				"contactNo1" : contact1,
+				"contactNo2" : contact2,
 				"address" : address
 			};
-		alert(contacts);
+			
+		alert(JSON.stringify(json));
 			$.ajax({
 				url : $("#addEditClientForm").attr("action"),
 				data : JSON.stringify(json),
 				type : "POST",
-
-				beforeSend : function(xhr) {
-					xhr.setRequestHeader("Accept", "application/json");
-					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-				},
+				beforeSend: function(xhr) {
+	        		xhr.setRequestHeader("Accept", "application/json");
+	        		xhr.setRequestHeader("Content-Type", "application/json");
+	        	},
 				success : function(result) {
 					alert("Client added.");
 
@@ -211,11 +206,8 @@
 						<thead>
 							<tr>
 								<th>Name</th>
-								<th>Position</th>
-								<th>Office</th>
-								<th>Phone</th>
-								<th>Start Date</th>
-								<th>Salary</th>
+								<th>Email</th>
+								<th>Address</th>
 							</tr>
 						</thead>
 					</table>

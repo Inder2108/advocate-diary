@@ -20,7 +20,6 @@ import com.adv.entities.PersonJsonObject;
 import com.adv.exceptions.ObjectNotFoundException;
 import com.adv.service.ClientService;
 import com.adv.util.CommonResponse;
-import com.adv.util.DataTablesResultSet;
 import com.adv.util.PagingCriteria;
 import com.adv.util.TableParam;
 import com.google.gson.Gson;
@@ -35,49 +34,46 @@ public class ClientController {
 	@Autowired(required = true)
 	@Qualifier(value = "clientService")
 	public void setClientService(ClientService ps) {
-		this.clientService = ps;
+		clientService = ps;
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView clientsPage() {
 		ModelAndView mv = new ModelAndView("clientsPage");
 		mv.addObject("client", new Client());
-		mv.addObject("listClients", this.clientService.listClients());
+		mv.addObject("listClients", clientService.listClients());
 		return mv;
 	}
 
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Client> listClients() {
-		return this.clientService.listClients();
+		return clientService.listClients();
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/addEdit", method = RequestMethod.POST)
 	@ResponseBody
 	public Client addClient(@RequestBody Client client) {
-		this.clientService.addClient(client);
+		if (client.getId() != 0) {
+			clientService.updateClient(client);
+		} else {
+			clientService.addClient(client);
+		}
 		return client;
 	}
 
-	@RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/remove/{id}", method = RequestMethod.POST)
+	@ResponseBody
 	public CommonResponse removeClient(@PathVariable("id") int id)
 			throws ObjectNotFoundException {
-		this.clientService.removeClient(id);
+		clientService.removeClient(id);
 		return new CommonResponse();
-	}
-
-	@RequestMapping("/edit/{id}")
-	@ResponseBody
-	public Client editClient(@RequestBody Client client)
-			throws ObjectNotFoundException {
-		this.clientService.updateClient(client);
-		return client;
 	}
 
 	@RequestMapping("/export")
 	public ModelAndView exportData() {
 		ModelAndView mv = new ModelAndView("PdfReportView");
-		mv.addObject("data", this.clientService.listClients());
+		mv.addObject("data", clientService.listClients());
 		return mv;
 	}
 
@@ -119,7 +115,7 @@ public class ClientController {
 		// personsList = getListBasedOnSearchParameter(searchParameter,
 		// personsList);
 
-		List<Client> clientList = this.clientService.listClients(pageNumber,
+		List<Client> clientList = clientService.listClients(pageNumber,
 				pageDisplayLength, "");
 		PersonJsonObject personJsonObject = new PersonJsonObject();
 		// Set Total display record
@@ -137,7 +133,7 @@ public class ClientController {
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public @ResponseBody String getCustomers(@TableParam PagingCriteria criteria) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json2 = gson.toJson(this.clientService.listClients(criteria));
+		String json2 = gson.toJson(clientService.listClients(criteria));
 		return json2;
 	}
 
@@ -145,8 +141,8 @@ public class ClientController {
 	@ResponseBody
 	public void addDummydata() {
 		for (int i = 1; i <= 500; i++) {
-			this.clientService.addClient(new Client(i + "", i + "@" + i + "."
-					+ i, i + "", i + "", i + ""));
+			clientService.addClient(new Client(i + "", i + "@" + i + "." + i, i
+					+ "", i + "", i + ""));
 		}
 	}
 }

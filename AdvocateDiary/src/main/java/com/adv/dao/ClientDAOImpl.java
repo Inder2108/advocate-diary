@@ -47,7 +47,10 @@ public class ClientDAOImpl implements ClientDAO {
 	}
 
 	@Override
-	public Client updateClient(Client p) {
+	public Client updateClient(Client p) throws ObjectNotFoundException {
+		if ((Client) entityManager.find(Client.class, new Integer(p.getId())) == null) {
+			throw new ObjectNotFoundException("No Client found with this id.");
+		} 
 		entityManager.merge(p);
 		logger.info("Client updated successfully, Client Details=" + p);
 		return p;

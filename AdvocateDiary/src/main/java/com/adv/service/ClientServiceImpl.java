@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	@Transactional
-	public Client updateClient(Client p) {
+	public Client updateClient(Client p) throws ObjectNotFoundException {
 		return clientDAO.updateClient(p);
 	}
 

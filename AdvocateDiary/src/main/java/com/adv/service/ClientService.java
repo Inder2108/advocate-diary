@@ -11,7 +11,7 @@ public interface ClientService {
 
 	Client addClient(Client p);
 
-	Client updateClient(Client p);
+	Client updateClient(Client p) throws ObjectNotFoundException;
 
 	List<Client> listClients();
 

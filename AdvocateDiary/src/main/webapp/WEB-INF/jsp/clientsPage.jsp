@@ -78,9 +78,18 @@ href="//cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 	       $("#addEditClientForm input[type='text']").each(function(){
 	    	   $(this).val("");
 	       });
+	       $("#addEditClientForm .error").each(function(){
+	    	   $(this).html("");
+	       });
 	       $("#addEditClientForm #id").val(0);
 	        $("#addEditClientForm input[type='submit']").attr('value','Add Client');
 	        $("h1").html('Add Client');	
+	   }
+	
+	function clearErrors() {
+	       $("#addEditClientForm .error").each(function(){
+	    	   $(this).html("");
+	       });
 	   }
 	
 	$(document).ready(function() {
@@ -104,6 +113,7 @@ href="//cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 	    $('#example').on( 'click', 'a.delete_client', function (e) {
 	        e.preventDefault();
 	        var row = $(this).parent().parent();
+	        var clientId = $(this).attr("data-id"); 
 			$.ajax({
 				url : $(this).attr("href"),
 				type : "POST",
@@ -112,8 +122,11 @@ href="//cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 		    		xhr.setRequestHeader("Content-Type", "application/json");
 		    	},
 				success : function(result) {
-					$('#example').DataTable().ajax.reload();
 					alert("Client deleted.");
+					$('#example').DataTable().ajax.reload();
+					if($("#addEditClientForm #id").val()==clientId){
+						clearForm();
+					}
 				},
 				failure : function(response) {
 					alert("Something went wrong.Please try again");
@@ -190,7 +203,7 @@ href="//cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 			            	sortable: false,
 			            	render: function (data, type, row) {
                                 return '<a class="edit_client" href="" data-id='+row.id + '>Edit</a>'
-                                +'/<a class="delete_client" href="/AdvocateDiary/clients/remove/'+row.id + '">Delete</a>';
+                                +'/<a class="delete_client" data-id='+row.id + ' href="/AdvocateDiary/clients/remove/'+row.id + '">Delete</a>';
                                 /* return '<form action="/AdvocateDiary/clients/remove/"+row.id>'+
                                 '<a href="javascript:deleteClient('+row.id +');">Edit</a></form>'; */                            
                             }}
@@ -199,8 +212,7 @@ href="//cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 		
 		$('#addEditClientForm').submit(function(event) {
 
-			/* alert($('#addEditClientForm').serialize());
- */
+			clearErrors();
 			var id = $('#id').val();
 			var name = $('#name').val();
 			var email = $('#email').val();
@@ -216,7 +228,6 @@ href="//cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 				"address" : address
 			};
 			
-		alert(JSON.stringify(json));
 			$.ajax({
 				url : $("#addEditClientForm").attr("action"),
 				data : JSON.stringify(json),
@@ -225,10 +236,17 @@ href="//cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 	        		xhr.setRequestHeader("Accept", "application/json");
 	        		xhr.setRequestHeader("Content-Type", "application/json");
 	        	},
-				success : function(result) {
-					alert("Client " + (id == 0 ?"added.":"updated."));
-					$('#example').DataTable().ajax.reload();
-					clearForm();
+				success : function(response) {
+					if(response.status == "SUCCESS"){
+						alert("Client " + (id == 0 ?"added.":"updated."));
+						$('#example').DataTable().ajax.reload();
+						clearForm();
+		             }else{
+		                 errorInfo = "";
+		                 for(i =0 ; i < response.result.length ; i++){
+		                	 $("#addEditClientForm #"+response.result[i].field+"ErrorDiv").html(response.result[i].defaultMessage);
+		                 }
+		             }
 				},
 				failure : function(response) {
 					alert("Something went wrong.Please try again");
@@ -256,22 +274,26 @@ href="//cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 						<spring:message text="Name" />
 					</form:label></td>
 				<td><form:input id="name" path="name" /></td>
+				<td style="color: red;"><div id="nameErrorDiv" class="error"></div></td>
 			</tr>
 			<tr>
 				<td><form:label path="email">
 						<spring:message text="Email" />
 					</form:label></td>
 				<td><form:input name="email"  path="email" /></td>
+				<td style="color: red;"><div id="emailErrorDiv" class="error"></div></td>
 			</tr>
 			<tr>
 				<td><form:label path="contactNo1">
 						<spring:message text="Contact No. " />
 					</form:label></td>
 				<td><form:input path="contactNo1" name="contactNo1"/></td>
+				<td style="color: red;"><div id="contactNo1ErrorDiv" class="error"></div></td>
 			</tr>
 
 			<tr>
 				<td></td><td><form:input path="contactNo2" name="contactNo2"/></td>
+				<td style="color: red;"><div id="contactNo2ErrorDiv" class="error"></div></td>
 			</tr>
 
 			<tr>

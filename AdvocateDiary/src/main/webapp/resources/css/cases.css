@@ -1,0 +1,152 @@
+html, body {
+	height: 100%;
+	background-color: #333;
+}
+
+body {
+	color: #fff;
+	text-align: center;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+	font-family: sans-serif;
+}
+
+/** format elements which have backgrounds parallax **/
+.bgParallax {
+	display: table;
+	margin: 0 auto;
+	width: 100%;
+	max-width: 1920px;
+	position: relative;
+	min-height: 100%;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	box-shadow: -20px 0 20px 5px rgba(0, 0, 0, 0.7);
+}
+
+.bgParallax-inner {
+	display: table-cell;
+	vertical-align: top;
+}
+
+.cover-container {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+/*
+ * Header
+ */
+.masthead-brand {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.masthead-nav>li {
+	display: inline-block;
+}
+
+.masthead-nav>li+li {
+	margin-left: 20px;
+}
+
+.masthead-nav>li>a {
+	padding-right: 10px;
+	padding-left: 10px;
+	font-size: x-large;
+	font-weight: bold;
+	color: #fff; /* IE8 proofing */
+	color: white;
+	border-bottom: 2px solid transparent;
+}
+
+.masthead-nav>li>a:hover, .masthead-nav>li>a:focus {
+	background-color: solid;
+	border-bottom-color: #a9a9a9;
+	border-bottom-color: rgba(255, 255, 255, .25);
+}
+
+.masthead-nav>.active>a, .masthead-nav>.active>a:hover, .masthead-nav>.active>a:focus
+	{
+	color: #fff;
+	border-bottom-color: #fff;
+}
+
+@media ( min-width : 768px) {
+	.masthead-brand {
+		float: left;
+	}
+	.masthead-nav {
+		float: right;
+	}
+}
+
+/*
+ * Cover
+ */
+.cover {
+	padding: 0 10px;
+}
+
+.cover .btn-lg {
+	padding: 5px 10px;
+	font-weight: bold;
+}
+
+/*
+ * Footer
+ */
+.mastfoot {
+	color: #999; /* IE8 proofing */
+	color: rgba(255, 255, 255, .5);
+}
+
+/*
+ * Affix and center
+ */
+@media ( min-width : 768px) {
+	/* Pull out the header and footer */
+	.masthead {
+		position: fixed;
+		top: 0;
+		padding: 10px;
+	}
+	.mastfoot {
+		position: fixed;
+		bottom: 0;
+	}
+	/* Start the vertical centering */
+	.site-wrapper-inner {
+		vertical-align: middle;
+	}
+	/* Handle the widths */
+	.masthead, .mastfoot, .cover-container {
+		width: 100%;
+		/* Must be percentage or pixels for horizontal alignment */
+	}
+}
+
+@media ( min-width : 992px) {
+	.masthead, .mastfoot, .cover-container {
+		width: 800px;
+	}
+	.masthead {
+		padding: 10px;
+	}
+}
+
+.inner-cover-margin {
+	margin-top: 15% !important;
+}
+
+.cases-table-column-heading {
+	font-size: large;
+}
+
+.inline {
+	display: inline-block;
+}
+
+.form-group>label {
+	text-align: center !important;
+}
